@@ -2,19 +2,3 @@
 
 # Arquivo de variáveis de ambiente (CRUCIAL: NÃO subir credenciais!)
 .env
-
-# Diretório de dependências PHP
-/vendor/
-
-# Arquivos de cache e logs da aplicação (se existirem e não forem no log do Docker)
-/storage/*.log
-/cache/
-
-# Arquivos de dados do Docker (volumes persistentes)
-# O nome do volume no docker-compose.yml é 'postgres_data'
-# O caminho real no host pode variar, mas este é um padrão comum
-# para evitar que dados de volumes sejam rastreados.
-# Geralmente volumes nomeados não aparecem diretamente na pasta do projeto,
-# mas se você montou subpastas com dados, exclua-as.
-# Por exemplo, se você tivesse um volume montado em ./data/db_postgres:
-/data/
