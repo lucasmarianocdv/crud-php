@@ -1,0 +1,42 @@
+services:
+  app:
+    build:
+      context: ./.docker/php
+      dockerfile: Dockerfile
+    container_name: php_app
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "9000:9000"
+    env_file:
+      - .env
+    depends_on:
+      - postgres_db
+
+  nginx:
+    build:
+      context: ./.docker/nginx
+      dockerfile: Dockerfile
+    container_name: nginx_web
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - ./.docker/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - app
+
+  postgres_db:
+    image: postgres:13
+    container_name: postgres_db
+    restart: always
+    environment: 
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./.docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      
+volumes:
+  postgres_data:
